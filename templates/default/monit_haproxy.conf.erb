@@ -1,0 +1,4 @@
+check process <%= node['haproxy']['service_name'] %> with pidfile <%= node['haproxy']['pid_file'] %>
+  group <%= node['haproxy']['service_name'] %>
+  start program = "/etc/init.d/<%= node['haproxy']['service_name'] %> start"
+  stop  program = "/etc/init.d/<%= node['haproxy']['service_name'] %> stop"

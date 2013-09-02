@@ -45,6 +45,8 @@ default['haproxy']['cookie'] = nil
 default['haproxy']['user'] = "haproxy"
 default['haproxy']['group'] = "haproxy"
 
+default['haproxy']['service_name'] = 'haproxy'
+
 default['haproxy']['global_max_connections'] = 4096
 default['haproxy']['member_max_connections'] = 100
 default['haproxy']['frontend_max_connections'] = 2000
@@ -61,3 +63,6 @@ default['haproxy']['source']['target_os'] = 'generic'
 default['haproxy']['source']['target_cpu'] = ''
 default['haproxy']['source']['target_arch'] = ''
 default['haproxy']['source']['use_pcre'] = false
+
+# supervisor
+default['haproxy']['supervisor'] = false # can be 'monit'
