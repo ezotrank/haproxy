@@ -1,0 +1,44 @@
+global
+    log 127.0.0.1   local0
+    log 127.0.0.1   local1 notice
+    maxconn <%= node['haproxy']['global_max_connections'] %>
+    user <%= node['haproxy']['user'] %>
+    group <%= node['haproxy']['group'] %>
+    daemon
+    nosplice
+
+defaults
+    log    global
+    mode   http
+    option redispatch
+    option http-server-close
+    option forwardfor
+    retries 3
+    option redispatch
+    <% @defaults_timeouts.sort.map do | value, time | -%>
+      timeout <%= value %> <%= time %>
+    <% end -%>
+
+frontend fuzzy-frontend
+    maxconn <%= node['haproxy']['frontend_max_connections'] %>
+    bind <%= node['haproxy']['incoming_address'] %>:<%= node['haproxy']['incoming_port'] %>
+    default_backend fuzzy-backend
+
+backend fuzzy-backend
+    balance leastconn
+    option httpchk GET /adaptors/status HTTP/1.1
+
+    <%- start_port = node['haproxy']['fuzzy']['bee_start_port'] -%>
+    <%- node['haproxy']['fuzzy']['bees_count'].times.each do |i| -%>
+      server fuzzy.<%= i %>  127.0.0.1:<%= start_port %> weight 20 maxconn 20 check maxqueue 100
+    <%- start_port += 1 -%>
+    <%- end -%>
+
+<% if node['haproxy']['enable_admin'] -%>
+listen admin <%= node['haproxy']['admin']['address_bind'] %>:<%= node['haproxy']['admin']['port'] %>
+  mode http
+  stats enable
+  stats refresh 10
+  stats auth <%= node['haproxy']['credentials'].join(':') %>
+  stats uri /
+<% end -%>

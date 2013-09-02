@@ -28,7 +28,7 @@ cookbook_file "/etc/default/haproxy" do
 end
 
 template "#{node['haproxy']['conf_dir']}/haproxy.cfg" do
-  source "haproxy.cfg.erb"
+  source node['haproxy']['config_template']
   owner "root"
   group "root"
   mode 00644

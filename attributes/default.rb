@@ -17,6 +17,12 @@
 # limitations under the License.
 #
 
+# supervisor
+default['haproxy']['supervisor'] = false # can be 'monit'
+
+# templates
+default['haproxy']['config_template'] = 'haproxy.cfg.erb'
+
 default['haproxy']['incoming_address'] = "0.0.0.0"
 default['haproxy']['incoming_port'] = 80
 default['haproxy']['member_port'] = 8080
@@ -64,5 +70,11 @@ default['haproxy']['source']['target_cpu'] = ''
 default['haproxy']['source']['target_arch'] = ''
 default['haproxy']['source']['use_pcre'] = false
 
-# supervisor
-default['haproxy']['supervisor'] = false # can be 'monit'
+
+
+# Ext fuzzy
+default['haproxy']['credentials'] = ['admin', 'admin']
+default['haproxy']['fuzzy']['bee_start_port'] = 7089
+default['haproxy']['fuzzy']['bee_start_port'] = 7089
+default['haproxy']['fuzzy']['bees_count'] = 8
+
