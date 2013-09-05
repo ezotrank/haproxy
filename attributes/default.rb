@@ -70,11 +70,8 @@ default['haproxy']['source']['target_cpu'] = ''
 default['haproxy']['source']['target_arch'] = ''
 default['haproxy']['source']['use_pcre'] = false
 
-
-
 # Ext fuzzy
 default['haproxy']['credentials'] = ['admin', 'admin']
-default['haproxy']['fuzzy']['bee_start_port'] = 7089
 default['haproxy']['fuzzy']['bee_start_port'] = 7089
 default['haproxy']['fuzzy']['bees_count'] = 8
 
