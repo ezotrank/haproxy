@@ -26,7 +26,7 @@ frontend fuzzy-frontend
 
 backend fuzzy-backend
     balance leastconn
-    option httpchk GET /adaptors/status HTTP/1.1
+    option httpchk <%= node['haproxy']['fuzzy']['check_command'] %>
 
     <%- start_port = node['haproxy']['fuzzy']['bee_start_port'] -%>
     <%- node['haproxy']['fuzzy']['bees_count'].times.each do |i| -%>
@@ -39,6 +39,6 @@ listen admin <%= node['haproxy']['admin']['address_bind'] %>:<%= node['haproxy']
   mode http
   stats enable
   stats refresh 10
-  stats auth <%= node['haproxy']['credentials'].join(':') %>
+  stats auth <%= node['haproxy']['admin']['login'] %>:<%= node['haproxy']['admin']['password'] %>
   stats uri /
 <% end -%>

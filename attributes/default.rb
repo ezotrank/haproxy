@@ -37,6 +37,8 @@ default['haproxy']['ssl_httpchk'] = nil
 default['haproxy']['enable_admin'] = true
 default['haproxy']['admin']['address_bind'] = "127.0.0.1"
 default['haproxy']['admin']['port'] = 22002
+default['haproxy']['admin']['login'] = 'admin'
+default['haproxy']['admin']['password'] = 'password'
 default['haproxy']['enable_stats_socket'] = false
 default['haproxy']['stats_socket_path'] = "/var/run/haproxy.sock"
 default['haproxy']['pid_file'] = "/var/run/haproxy.pid"
@@ -71,7 +73,7 @@ default['haproxy']['source']['target_arch'] = ''
 default['haproxy']['source']['use_pcre'] = false
 
 # Ext fuzzy
-default['haproxy']['credentials'] = ['admin', 'admin']
 default['haproxy']['fuzzy']['bee_start_port'] = 7089
 default['haproxy']['fuzzy']['bees_count'] = 8
+default['haproxy']['fuzzy']['check_command'] = 'GET /adaptors/status HTTP/1.1'
 
