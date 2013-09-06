@@ -25,7 +25,7 @@ frontend fuzzy-frontend
     default_backend fuzzy-backend
 
 backend fuzzy-backend
-    reqrep ^POST\ /search\.json\ HTTP/1.1 POST\ /chains/search\ HTTP/1.1
+    reqrep ^POST\ /searches\.json\ HTTP/1.1 POST\ /adaptors/searches.json\ HTTP/1.1
     balance leastconn
     option httpchk <%= node['haproxy']['fuzzy']['check_command'] %>
 
