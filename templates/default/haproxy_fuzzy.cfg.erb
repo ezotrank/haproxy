@@ -28,6 +28,7 @@ backend fuzzy-backend
     reqrep ^POST\ /searches\.json\ HTTP/1.1 POST\ /adaptors/searches.json\ HTTP/1.1
     balance leastconn
     option httpchk <%= node['haproxy']['fuzzy']['check_command'] %>
+    timeout check <%= node['haproxy']['fuzzy']['timeout_check'] %>
 
     <%- start_port = node['haproxy']['fuzzy']['bee_start_port'] -%>
     <%- node['haproxy']['fuzzy']['bees_count'].times.each do |i| -%>

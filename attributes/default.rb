@@ -76,4 +76,5 @@ default['haproxy']['source']['use_pcre'] = false
 default['haproxy']['fuzzy']['bee_start_port'] = 7089
 default['haproxy']['fuzzy']['bees_count'] = 8
 default['haproxy']['fuzzy']['check_command'] = 'GET /adaptors/status HTTP/1.1'
+default['haproxy']['fuzzy']['timeout_check'] = '20000'
 
