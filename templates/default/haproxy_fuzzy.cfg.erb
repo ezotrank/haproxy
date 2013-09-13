@@ -31,7 +31,7 @@ backend fuzzy-backend
 
     <%- start_port = node['haproxy']['fuzzy']['bee_start_port'] -%>
     <%- node['haproxy']['fuzzy']['bees_count'].times.each do |i| -%>
-      server fuzzy.<%= i %>  127.0.0.1:<%= start_port %> weight 20 maxconn 20 check maxqueue 100
+      server fuzzy.<%= i %>  <%= node['haproxy']['fuzzy']['address']%>:<%= start_port %> weight 20 maxconn 20 check maxqueue 100
     <%- start_port += 1 -%>
     <%- end -%>
 
