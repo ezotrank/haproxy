@@ -49,7 +49,7 @@ start() {
 stop() {
     echo -n $"Stopping $prog: "
     # stop it here, often "killproc $prog"
-    kill `pidof $prog`
+    kill -USR1 `pidof $prog`
     retval=$?
     echo
     [ $retval -eq 0 ] && rm -f $lockfile
