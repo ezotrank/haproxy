@@ -40,6 +40,8 @@ listen admin <%= node['haproxy']['admin']['address_bind'] %>:<%= node['haproxy']
   mode http
   stats enable
   stats refresh 10
+  <%- if node['haproxy']['admin']['login'] && node['haproxy']['admin']['password'] %>
   stats auth <%= node['haproxy']['admin']['login'] %>:<%= node['haproxy']['admin']['password'] %>
+  <%- end %>
   stats uri /
 <% end -%>
