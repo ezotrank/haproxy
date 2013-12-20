@@ -12,7 +12,6 @@ defaults
     mode   http
     option redispatch
     option http-server-close
-    option forwardfor
     retries 3
     option redispatch
     <% @defaults_timeouts.sort.map do | value, time | -%>
