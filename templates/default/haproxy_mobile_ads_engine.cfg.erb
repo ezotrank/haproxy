@@ -1,0 +1,46 @@
+global
+    log 127.0.0.1   local0
+    log 127.0.0.1   local1 notice
+    maxconn <%= node['haproxy']['global_max_connections'] %>
+    user <%= node['haproxy']['user'] %>
+    group <%= node['haproxy']['group'] %>
+    daemon
+    nosplice
+
+defaults
+    log    global
+    mode   http
+    option redispatch
+    option http-server-close
+    retries 3
+    option redispatch
+    <% @defaults_timeouts.sort.map do | value, time | -%>
+      timeout <%= value %> <%= time %>
+    <% end -%>
+
+frontend mobile_ads_engine-frontend
+    maxconn <%= node['haproxy']['frontend_max_connections'] %>
+    bind <%= node['haproxy']['incoming_address'] %>:<%= node['haproxy']['incoming_port'] %>
+    default_backend mobile_ads_engine-backend
+
+backend mobile_ads_engine-backend
+    balance leastconn
+    option httpchk <%= node['haproxy']['mobile_ads_engine']['check_command'] %>
+    timeout check <%= node['haproxy']['mobile_ads_engine']['timeout_check'] %>
+
+    <%- start_port = node['haproxy']['mobile_ads_engine']['bee_start_port'] -%>
+    <%- node['haproxy']['mobile_ads_engine']['bees_count'].times.each do |i| -%>
+      server mobile_ads_engine.<%= i %>  <%= node['haproxy']['mobile_ads_engine']['address']%>:<%= start_port %> weight 20 maxconn 20 check maxqueue 100
+    <%- start_port += 1 -%>
+    <%- end -%>
+
+<% if node['haproxy']['enable_admin'] -%>
+listen admin <%= node['haproxy']['admin']['address_bind'] %>:<%= node['haproxy']['admin']['port'] %>
+  mode http
+  stats enable
+  stats refresh 10
+  <%- if node['haproxy']['admin']['login'] && node['haproxy']['admin']['password'] %>
+  stats auth <%= node['haproxy']['admin']['login'] %>:<%= node['haproxy']['admin']['password'] %>
+  <%- end %>
+  stats uri /
+<% end -%>
